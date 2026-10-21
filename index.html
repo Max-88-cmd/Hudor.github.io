@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hudor</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Hudor — регуляторний супровід підприємств у сфері водопостачання та водовідведення: дозволи, нормативи ГДС, свердловини, ЗСО, консультації.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<meta property="og:title" content="Hudor — водна документація для підприємств">
+<meta property="og:description" content="Дозволи на водокористування, нормативи ГДС, свердловини, ЗСО та регуляторні консультації.">
+<style>
+/* Layout: dark "water-utility" world. Hero = live pipeline schematic (джерело → скид) with the documents each node needs;
+   sections read like a regulatory register (doc codes, stamps), one lighter steel band for the sustainability block. */
+:root{
+  --ink:#09111b;        /* page ground, deep navy */
+  --deep:#0e1a28;       /* alternate band */
+  --slate:#152232;      /* surfaces */
+  --slate-2:#1d2d40;    /* raised surface */
+  --line:#2a3b50;       /* hairlines */
+  --steel:#8d9db1;      /* secondary text, grey-blue */
+  --mist:#d3dce7;       /* body text */
+  --white:#f1f5f9;      /* headings */
+  --accent:#58b3d6;     /* water blue */
+  --accent-2:#3d8fb3;   /* deeper water */
+  --accent-ink:#06202e; /* text on accent */
+  --eco:#6cc4a1;        /* sustainability signal */
+  --hi:#e07a5f; --mid:#d8b45c; --lo:#6cc4a1;
+  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --r:6px;
+  --wrap:1180px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--mist);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink)}
+a{color:var(--accent)}
+h1,h2,h3{color:var(--white);text-wrap:balance;margin:0}
+p{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.band{padding-block:clamp(64px,9vw,112px)}
+.band--deep{background:var(--deep)}
+.eyebrow{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.h2{font-family:var(--f-display);font-weight:600;font-size:clamp(26px,3.6vw,40px);line-height:1.15;letter-spacing:-.01em}
+.lead{font-size:clamp(16px,1.5vw,18px);color:var(--steel);max-width:62ch}
+.sec-head{display:grid;gap:14px;margin-bottom:clamp(32px,5vw,52px);max-width:760px}
+.mono{font-family:var(--f-mono)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 15px/1 var(--f-body);padding:15px 22px;border-radius:var(--r);border:1px solid transparent;cursor:pointer;text-decoration:none;transition:background .2s,border-color .2s,color .2s,transform .2s}
+.btn--primary{background:var(--accent);color:var(--accent-ink)}
+.btn--primary:hover{background:#7cc6e3}
+.btn--ghost{background:transparent;color:var(--white);border-color:var(--line)}
+.btn--ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.btn svg{width:16px;height:16px;flex:none}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--ink) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:20px;min-height:64px}
+.logo{display:flex;align-items:center;gap:10px;color:var(--white);text-decoration:none;font-family:var(--f-display);font-weight:600;font-size:19px;letter-spacing:.02em}
+.logo svg{width:28px;height:28px}
+.nav{display:flex;gap:22px;margin-left:auto}
+.nav a{color:var(--steel);text-decoration:none;font-size:14.5px}
+.nav a:hover{color:var(--white)}
+.top-actions{display:flex;align-items:center;gap:10px}
+.top .btn{padding:11px 16px;font-size:14px}
+.eco-toggle{display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid var(--line);color:var(--steel);border-radius:999px;padding:7px 12px 7px 8px;font:500 13px/1 var(--f-body);cursor:pointer}
+.eco-toggle .dot{width:26px;height:16px;border-radius:999px;background:var(--slate-2);position:relative;transition:background .2s}
+.eco-toggle .dot::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--steel);transition:transform .2s,background .2s}
+.eco-toggle[aria-pressed="true"]{color:var(--eco);border-color:color-mix(in srgb,var(--eco) 50%,transparent)}
+.eco-toggle[aria-pressed="true"] .dot{background:color-mix(in srgb,var(--eco) 30%,transparent)}
+.eco-toggle[aria-pressed="true"] .dot::after{transform:translateX(10px);background:var(--eco)}
+@media (max-width:980px){.nav{display:none}.top-actions{margin-left:auto}}
+@media (max-width:520px){.top .btn{display:none}.eco-label{display:none}}
+
+/* hero */
+.hero{position:relative;padding-block:clamp(48px,7vw,88px) clamp(56px,8vw,96px);overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto auto;width:70vw;height:70vw;max-width:900px;max-height:900px;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent-2) 22%,transparent),transparent 70%);pointer-events:none}
+.hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(32px,5vw,64px);align-items:start}
+.hero h1{font-family:var(--f-display);font-weight:600;font-size:clamp(32px,4.9vw,58px);line-height:1.08;letter-spacing:-.02em;margin:18px 0 22px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .lead{margin-bottom:30px}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hero-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 24px;margin-top:38px;padding-top:24px;border-top:1px solid var(--line)}
+.hero-facts div{font-size:14px;color:var(--steel)}
+.hero-facts b{display:block;font-family:var(--f-mono);font-weight:500;color:var(--white);font-size:15px}
+@media (max-width:900px){.hero-grid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.hero-facts{grid-template-columns:minmax(0,1fr)}}
+
+/* schematic */
+.scheme{background:var(--slate);border:1px solid var(--line);border-radius:10px;padding:20px 20px 18px}
+.scheme-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px;font-family:var(--f-mono);font-size:12px;color:var(--steel);letter-spacing:.06em;text-transform:uppercase}
+.nodes{list-style:none;margin:0;padding:0;display:grid}
+.node{position:relative;display:grid;grid-template-columns:34px minmax(0,1fr);gap:14px}
+.node .pipe{position:relative;display:flex;justify-content:center}
+.node .pipe::before{content:"";position:absolute;top:0;bottom:0;width:4px;background:repeating-linear-gradient(180deg,var(--accent-2) 0 10px,transparent 10px 18px);background-size:4px 18px;opacity:.55;animation:flow 1.1s linear infinite}
+.node:first-child .pipe::before{top:18px}
+.node:last-child .pipe::before{bottom:calc(100% - 18px)}
+@keyframes flow{to{background-position:0 18px}}
+.node .valve{position:relative;z-index:1;margin-top:4px;width:30px;height:30px;border-radius:50%;background:var(--ink);border:2px solid var(--accent-2);display:grid;place-items:center;font:500 11px var(--f-mono);color:var(--accent);transition:background .2s,border-color .2s,color .2s}
+.node button{all:unset;cursor:pointer;display:block;padding:6px 10px 14px;border-radius:var(--r);margin-left:-10px}
+.node button:focus-visible{outline:2px solid var(--accent)}
+.node button strong{display:block;color:var(--white);font-weight:600;font-size:15.5px}
+.node button span{display:block;color:var(--steel);font-size:13.5px;line-height:1.45}
+.node[aria-current="true"] .valve{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.node[aria-current="true"] button{background:var(--slate-2)}
+.node-docs{margin-top:6px;border-top:1px dashed var(--line);padding-top:14px;min-height:118px}
+.node-docs .k{font-family:var(--f-mono);font-size:11.5px;color:var(--steel);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:13px;line-height:1.3;padding:7px 10px;border-radius:4px;background:color-mix(in srgb,var(--accent) 12%,transparent);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);color:var(--white)}
+.chip .mono{color:var(--accent);margin-right:6px;font-size:11.5px}
+
+/* problem */
+.prob-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.prob{background:var(--deep);padding:28px 26px;display:grid;gap:12px;align-content:start}
+.prob .num{font-family:var(--f-display);font-size:30px;color:var(--accent);line-height:1}
+.prob h3{font-size:18px;font-weight:600}
+.prob p{color:var(--steel);font-size:15px}
+.prob small{font-family:var(--f-mono);font-size:11.5px;color:var(--steel);opacity:.8}
+@media (max-width:860px){.prob-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* services */
+.svc{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px;align-items:start}
+.svc-card{background:var(--slate);border:1px solid var(--line);border-radius:10px;padding:clamp(22px,3vw,32px)}
+.svc-card h3{font-family:var(--f-display);font-weight:500;font-size:20px;margin:10px 0 8px}
+.svc-card > p{color:var(--steel);font-size:15px;margin-bottom:20px}
+.register{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.register li{display:grid;grid-template-columns:62px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.register .code{font-family:var(--f-mono);font-size:13px;color:var(--accent);padding-top:2px}
+.register b{display:block;color:var(--white);font-weight:500;font-size:15.5px;line-height:1.4}
+.register span{display:block;color:var(--steel);font-size:13.5px;margin-top:3px}
+.consult-list{list-style:none;margin:0 0 22px;padding:0;display:grid;gap:12px}
+.consult-list li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px;font-size:15px}
+.consult-list li::before{content:"";width:8px;height:8px;margin-top:8px;border:2px solid var(--accent);border-radius:50%}
+.svc-note{font-size:13.5px;color:var(--steel);border-left:2px solid var(--accent-2);padding-left:12px}
+@media (max-width:900px){.svc{grid-template-columns:minmax(0,1fr)}}
+
+/* process */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;counter-reset:st;position:relative}
+.steps li{position:relative;padding:0 18px 0 0;display:grid;gap:8px;align-content:start}
+.steps li::before{counter-increment:st;content:"0" counter(st);font-family:var(--f-mono);font-size:13px;color:var(--accent);display:block;padding-bottom:14px;margin-bottom:6px;border-bottom:2px solid var(--line)}
+.steps li:first-child::before{border-bottom-color:var(--accent)}
+.steps b{color:var(--white);font-weight:600;font-size:16px}
+.steps p{color:var(--steel);font-size:14.5px}
+@media (max-width:900px){.steps{grid-template-columns:minmax(0,1fr);gap:22px}.steps li{padding:0 0 0 52px}.steps li::before{position:absolute;left:0;top:0;border:0;padding:0}}
+
+/* formats */
+.formats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.fmt{background:var(--slate);border:1px solid var(--line);border-radius:10px;padding:26px 24px;display:flex;flex-direction:column;gap:14px}
+.fmt.is-key{border-color:var(--accent-2);background:linear-gradient(180deg,color-mix(in srgb,var(--accent-2) 14%,var(--slate)),var(--slate))}
+.fmt .tag{align-self:flex-start;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);padding:4px 8px;border-radius:3px}
+.fmt h3{font-size:19px;font-weight:600}
+.fmt p{color:var(--steel);font-size:14.5px}
+.fmt ul{margin:0;padding:0 0 0 18px;font-size:14.5px;display:grid;gap:6px;flex:1}
+.fmt .price{font-family:var(--f-mono);font-size:13px;color:var(--steel);border-top:1px solid var(--line);padding-top:14px}
+.fmt .btn{justify-content:center}
+@media (max-width:900px){.formats{grid-template-columns:minmax(0,1fr)}}
+
+/* survey */
+.survey-wrap{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,4vw,56px);align-items:start}
+.survey-aside{display:grid;gap:18px;position:sticky;top:96px}
+.survey-aside ul{margin:0;padding:0;list-style:none;display:grid;gap:10px;color:var(--steel);font-size:14.5px}
+.survey-aside li{display:flex;gap:10px}
+.survey-aside li b{color:var(--white);font-family:var(--f-mono);font-weight:500;min-width:22px}
+.survey{background:var(--slate);border:1px solid var(--line);border-radius:12px;padding:clamp(20px,3vw,32px);min-width:0}
+.progress{display:flex;gap:4px;margin-bottom:8px}
+.progress i{flex:1;height:4px;border-radius:2px;background:var(--slate-2);transition:background .3s}
+.progress i.on{background:var(--accent)}
+.progress-label{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:12px;color:var(--steel);margin-bottom:22px}
+.q-title{font-family:var(--f-display);font-weight:500;font-size:clamp(19px,2.2vw,23px);line-height:1.3;margin-bottom:6px}
+.q-hint{color:var(--steel);font-size:14px;margin-bottom:20px}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:620px){.opts.two{grid-template-columns:minmax(0,1fr)}}
+.opt{position:relative;display:grid;grid-template-columns:22px minmax(0,1fr);gap:12px;align-items:start;padding:13px 14px;border:1px solid var(--line);border-radius:var(--r);background:var(--deep);cursor:pointer;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--steel)}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt .box{width:20px;height:20px;margin-top:1px;border:1.5px solid var(--steel);border-radius:4px;display:grid;place-items:center;transition:all .15s}
+.opt input[type=radio] + .box{border-radius:50%}
+.opt input:checked + .box{background:var(--accent);border-color:var(--accent)}
+.opt input:checked + .box::after{content:"";width:8px;height:8px;background:var(--accent-ink);border-radius:2px}
+.opt input[type=radio]:checked + .box::after{border-radius:50%}
+.opt input:focus-visible + .box{outline:2px solid var(--accent);outline-offset:2px}
+.opt:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--deep))}
+.opt b{display:block;color:var(--white);font-weight:500;font-size:15px;line-height:1.35}
+.opt small{display:block;color:var(--steel);font-size:13px;line-height:1.4;margin-top:2px}
+.q-nav{display:flex;justify-content:space-between;gap:12px;margin-top:24px;flex-wrap:wrap}
+.q-nav .btn{padding:13px 20px}
+/* result */
+.result{display:grid;gap:20px}
+.risk{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:var(--r);background:var(--deep);border:1px solid var(--line)}
+.risk .meter{display:flex;gap:4px}
+.risk .meter i{width:10px;height:26px;border-radius:2px;background:var(--slate-2)}
+.risk[data-level="high"] .meter i:nth-child(-n+3){background:var(--hi)}
+.risk[data-level="mid"] .meter i:nth-child(-n+2){background:var(--mid)}
+.risk[data-level="low"] .meter i:nth-child(-n+1){background:var(--lo)}
+.risk b{display:block;color:var(--white);font-size:16px}
+.risk span{font-size:13.5px;color:var(--steel)}
+.res-block .k{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--steel);margin-bottom:8px}
+.res-need{font-family:var(--f-display);font-weight:500;color:var(--white);font-size:20px;line-height:1.3}
+.res-docs{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.res-docs li{display:grid;grid-template-columns:50px minmax(0,1fr);gap:10px;font-size:14.5px;padding:10px 12px;background:var(--deep);border-radius:4px}
+.res-docs .code{font-family:var(--f-mono);color:var(--accent);font-size:12.5px;padding-top:2px}
+.disclaimer{font-size:12.5px;color:var(--steel)}
+.lead-form{display:grid;gap:14px;border-top:1px solid var(--line);padding-top:22px}
+.lead-form h3{font-size:17px;font-weight:600}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:620px){.fields{grid-template-columns:minmax(0,1fr)}}
+.field{display:grid;gap:6px;font-size:13.5px;color:var(--steel)}
+.field input,.field textarea{font:15px var(--f-body);color:var(--white);background:var(--deep);border:1px solid var(--line);border-radius:var(--r);padding:12px 13px;width:100%}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:80px}
+.check{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;font-size:13.5px;color:var(--steel);cursor:pointer;align-items:start}
+.check input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--accent)}
+.form-msg{font-size:14px;color:var(--hi)}
+.thanks{display:grid;gap:12px;text-align:left;padding:8px 0}
+.thanks h3{font-family:var(--f-display);font-weight:500;font-size:22px}
+.thanks p{color:var(--steel)}
+.demo-note{font-family:var(--f-mono);font-size:12px;color:var(--steel);border:1px dashed var(--line);padding:8px 10px;border-radius:4px}
+@media (max-width:900px){.survey-wrap{grid-template-columns:minmax(0,1fr)}.survey-aside{position:static}}
+
+/* sustainability band */
+.sus{position:relative;background:linear-gradient(180deg,#132638,#0f2132);overflow:hidden;border-block:1px solid var(--line)}
+.sus canvas{position:absolute;left:0;right:0;bottom:0;width:100%;height:180px;pointer-events:none;opacity:.9}
+.sus .wrap{position:relative}
+.sus .eyebrow{color:var(--eco)}
+.sus-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:28px}
+.pillar{background:color-mix(in srgb,var(--ink) 55%,transparent);border:1px solid color-mix(in srgb,var(--eco) 22%,var(--line));border-radius:10px;padding:24px;display:grid;gap:12px;align-content:start}
+.pillar .k{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--eco)}
+.pillar h3{font-size:18px;font-weight:600}
+.pillar ul{margin:0;padding:0 0 0 18px;display:grid;gap:8px;color:var(--mist);font-size:14.5px}
+.pillar li::marker{color:var(--eco)}
+.eco-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;background:color-mix(in srgb,var(--ink) 70%,transparent);border:1px dashed color-mix(in srgb,var(--eco) 45%,transparent);border-radius:10px;padding:20px 22px;margin-bottom:120px}
+.eco-card b{color:var(--white);display:block;margin-bottom:4px}
+.eco-card p{color:var(--steel);font-size:14.5px}
+.eco-card .eco-toggle{padding:10px 14px 10px 10px;font-size:14px}
+.refs{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--f-mono);font-size:12px;color:var(--steel);margin-top:-8px;margin-bottom:28px}
+@media (max-width:900px){.sus-grid{grid-template-columns:minmax(0,1fr)}.eco-card{grid-template-columns:minmax(0,1fr)}}
+
+/* roadmap */
+.road{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.road-item{border:1px solid var(--line);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:10px;background:var(--ink)}
+.road-item .k{font-family:var(--f-mono);font-size:11.5px;color:var(--steel);letter-spacing:.06em;text-transform:uppercase}
+.road-item h3{font-size:16.5px;font-weight:600;line-height:1.35}
+.road-item p{color:var(--steel);font-size:14px;flex:1}
+.vote{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;color:var(--mist);border:1px solid var(--line);padding:9px 12px;border-radius:var(--r);align-self:flex-start;transition:all .15s}
+.vote:hover{border-color:var(--accent)}
+.vote:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.vote[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.vote svg{width:14px;height:14px}
+@media (max-width:1000px){.road{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.road{grid-template-columns:minmax(0,1fr)}}
+
+/* faq */
+.faq{display:grid;gap:0;max-width:860px;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:20px 0;color:var(--white);font-weight:500;font-size:16.5px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--f-mono);color:var(--accent);font-size:20px;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq details p{padding:0 0 20px;color:var(--steel);max-width:70ch}
+
+/* final cta + footer */
+.final{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;background:var(--slate);border:1px solid var(--line);border-radius:12px;padding:clamp(24px,4vw,44px)}
+.final h2{font-family:var(--f-display);font-weight:600;font-size:clamp(22px,3vw,32px);line-height:1.2}
+.final p{color:var(--steel);margin-top:10px}
+@media (max-width:760px){.final{grid-template-columns:minmax(0,1fr)}}
+footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--steel);font-size:13.5px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 32px;align-items:center}
+footer nav{display:flex;flex-wrap:wrap;gap:18px}
+footer a{color:var(--steel);text-decoration:none}
+footer a:hover{color:var(--white)}
+
+/* eco mode + reduced motion */
+:root[data-eco="on"] .hero::before,
+:root[data-eco="on"] .sus canvas{display:none}
+:root[data-eco="on"] .node .pipe::before{animation:none}
+:root[data-eco="on"] .top{backdrop-filter:none;background:var(--ink)}
+:root[data-eco="on"] .eco-card{margin-bottom:0}
+:root[data-eco="on"]{scroll-behavior:auto}
+:root[data-eco="on"] *{transition:none!important}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .node .pipe::before{animation:none}
+  *{transition:none!important}
+}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" data-track="logo">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3c5 6.6 9 11.6 9 16.2A9 9 0 0 1 7 19.2C7 14.6 11 9.6 16 3Z" fill="none" stroke="#58b3d6" stroke-width="2.2"/><path d="M10.5 20.5h11M12 24h8" stroke="#8d9db1" stroke-width="2" stroke-linecap="round"/></svg>
+      Hudor
+    </a>
+    <nav class="nav" aria-label="Розділи">
+      <a href="#services" data-track="nav_services">Послуги</a>
+      <a href="#process" data-track="nav_process">Як працюємо</a>
+      <a href="#formats" data-track="nav_formats">Формати</a>
+      <a href="#sustainability" data-track="nav_sustainability">Відповідальність</a>
+      <a href="#faq" data-track="nav_faq">Питання</a>
+    </nav>
+    <div class="top-actions">
+      <button class="eco-toggle" type="button" aria-pressed="false" data-eco-toggle title="Вимикає анімації та декоративну графіку">
+        <span class="dot" aria-hidden="true"></span><span class="eco-label">Еко-режим</span>
+      </button>
+      <a class="btn btn--primary" href="#survey" data-track="cta_header">Оцінити потребу</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" data-section="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Регуляторний супровід · водопостачання та водовідведення</div>
+        <h1>Водна документація підприємства — <em>без ризику порушень</em></h1>
+        <p class="lead">Визначаємо, які дозволи й нормативи потрібні саме вашому об’єкту, готуємо документацію та супроводжуємо до отримання. Ви займаєтеся виробництвом, ми стежимо за відповідністю вимогам.</p>
+        <div class="hero-ctas">
+          <a class="btn btn--primary" href="#survey" data-track="cta_hero_survey">
+            Визначити мої потреби
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="#services" data-track="cta_hero_services">Переглянути послуги</a>
+        </div>
+        <div class="hero-facts">
+          <div><b>6 типів</b>дозвільної та технічної документації</div>
+          <div><b>3 хвилини</b>експрес-оцінка ваших потреб</div>
+          <div><b>1 відповідальний</b>фахівець на весь процес</div>
+        </div>
+      </div>
+
+      <div class="scheme" aria-labelledby="scheme-title">
+        <div class="scheme-head"><span id="scheme-title">Шлях води через підприємство</span><span>оберіть вузол</span></div>
+        <ol class="nodes" id="nodes">
+          <li class="node" aria-current="true" data-node="0"><div class="pipe"><span class="valve">01</span></div>
+            <button type="button"><strong>Джерело</strong><span>Свердловина або поверхневий водний об’єкт</span></button></li>
+          <li class="node" data-node="1"><div class="pipe"><span class="valve">02</span></div>
+            <button type="button"><strong>Водозабір</strong><span>Забір води для потреб підприємства</span></button></li>
+          <li class="node" data-node="2"><div class="pipe"><span class="valve">03</span></div>
+            <button type="button"><strong>Виробництво</strong><span>Використання та облік води</span></button></li>
+          <li class="node" data-node="3"><div class="pipe"><span class="valve">04</span></div>
+            <button type="button"><strong>Очисні споруди</strong><span>Локальне очищення стічних вод</span></button></li>
+          <li class="node" data-node="4"><div class="pipe"><span class="valve">05</span></div>
+            <button type="button"><strong>Скид</strong><span>У водний об’єкт або мережу водоканалу</span></button></li>
+        </ol>
+        <div class="node-docs" aria-live="polite">
+          <div class="k" id="node-k">Документи на цьому етапі</div>
+          <div class="chips" id="node-chips">
+            <span class="chip"><span class="mono">Д-03</span>Паспорт артезіанської свердловини</span>
+            <span class="chip"><span class="mono">Д-05</span>Проєкт зон санітарної охорони</span>
+            <span class="chip"><span class="mono">Д-04</span>Паспорт водного об’єкта</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="band band--deep" data-section="problem">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Чому це складно</div>
+        <h2 class="h2">Вимоги змінюються швидше, ніж підприємство встигає за ними стежити</h2>
+        <p class="lead">Ми провели глибинні інтерв’ю з приватними та комунальними підприємствами, органами місцевого самоврядування й громадським сектором. Ось що заважає найбільше.</p>
+      </div>
+      <div class="prob-grid">
+        <div class="prob">
+          <div class="num">01</div>
+          <h3>Незрозуміла регуляторна рамка</h3>
+          <p>Більшість респондентів частково або повністю не розуміють регуляторних документів у сфері водовідведення. Вимоги змінюються, а інформацію доводиться збирати з різних джерел.</p>
+          <small>Джерело: інтерв’ю команди Hudor</small>
+        </div>
+        <div class="prob">
+          <div class="num">до 10%</div>
+          <h3>Розрив між паперами та фактом</h3>
+          <p>Інженери оцінюють розбіжність між номінальним обсягом стоків і тим, що фактично потрапляє в мережу, до 10%. Без коректних нормативів це стає підставою для претензій.</p>
+          <small>Джерело: інтерв’ю з інженерами</small>
+        </div>
+        <div class="prob">
+          <div class="num">ЄС</div>
+          <h3>Нові стандарти й інвестори</h3>
+          <p>Євроінтеграція та Водна стратегія України до 2050 року посилюють увагу до стічних вод. Інвестори дивляться на ESG-звітність, де водна документація є базовою.</p>
+          <small>Директива 91/271/ЄЕС · Водна стратегія 2050</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="band" id="services" data-section="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Послуги</div>
+        <h2 class="h2">Два напрями, одна мета: мінімізувати регуляторні ризики</h2>
+        <p class="lead">Робота з документацією дає нам практичну експертизу, яку ми передаємо клієнтам у консультаціях.</p>
+      </div>
+      <div class="svc">
+        <article class="svc-card">
+          <div class="eyebrow">Напрям 1</div>
+          <h3>Дозвільна документація</h3>
+          <p>Готуємо, погоджуємо й подаємо документи у сфері водопостачання, водовідведення та екологічного аудиту.</p>
+          <ol class="register">
+            <li><span class="code">Д-01</span><div><b>Дозвільна документація у сфері водокористування</b><span>Дозвіл на спеціальне водокористування, розрахунки обсягів забору та скиду</span></div></li>
+            <li><span class="code">Д-02</span><div><b>Скидання стічних вод і нормативи ГДС</b><span>Розрахунок гранично допустимих скидів, супровідні матеріали</span></div></li>
+            <li><span class="code">Д-03</span><div><b>Артезіанські свердловини та водозабірні споруди</b><span>Паспорти свердловин, документація на водозабори</span></div></li>
+            <li><span class="code">Д-04</span><div><b>Паспорти водних об’єктів</b><span>Документація щодо використання ставків, водосховищ та інших об’єктів</span></div></li>
+            <li><span class="code">Д-05</span><div><b>Зони санітарної охорони джерел водопостачання</b><span>Проєкти ЗСО, межі та режими поясів</span></div></li>
+            <li><span class="code">Д-06</span><div><b>Екологічна, проєктна та технічна документація</b><span>Водопостачання, водовідведення, очищення стічних вод</span></div></li>
+          </ol>
+        </article>
+        <article class="svc-card">
+          <div class="eyebrow">Напрям 2</div>
+          <h3>Регуляторні консультації</h3>
+          <p>Для власників і керівників приватних підприємств, які хочуть розуміти свої зобов’язання наперед.</p>
+          <ul class="consult-list">
+            <li>Визначення вимог саме до вашого об’єкта та галузі</li>
+            <li>Аудит наявних документів: що чинне, що спливає, чого бракує</li>
+            <li>Роз’яснення змін у законодавстві простою мовою</li>
+            <li>Підготовка до перевірок і відповіді на запити органів</li>
+            <li>Супровід під час запуску нового об’єкта чи розширення</li>
+          </ul>
+          <p class="svc-note">Консультація часто починається з одного питання, а закінчується картою вимог, яку ваша команда використовує роками.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="band band--deep" id="process" data-section="process">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Як працюємо</div>
+        <h2 class="h2">Від першого дзвінка до чинного дозволу</h2>
+      </div>
+      <ol class="steps">
+        <li><b>Експрес-діагностика</b><p>Коротке опитування й розмова про ваш об’єкт, джерела води та скиди.</p></li>
+        <li><b>Карта вимог</b><p>Перелік потрібних документів, строки, ризики та пріоритети.</p></li>
+        <li><b>Підготовка документації</b><p>Збираємо дані, робимо розрахунки, готуємо пакет документів.</p></li>
+        <li><b>Подання та супровід</b><p>Подаємо, відповідаємо на зауваження, доводимо до отримання.</p></li>
+        <li><b>Моніторинг змін</b><p>Нагадуємо про строки та повідомляємо про нові вимоги.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FORMATS -->
+  <section class="band" id="formats" data-section="formats">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Формати співпраці</div>
+        <h2 class="h2">Оберіть, як вам зручніше працювати</h2>
+        <p class="lead">Вартість залежить від типу документів і стану об’єкта, тому називаємо її після діагностики.</p>
+      </div>
+      <div class="formats">
+        <article class="fmt">
+          <span class="tag">Разово</span>
+          <h3>Консультація</h3>
+          <p>Коли потрібно зрозуміти вимоги й вирішити, що робити далі.</p>
+          <ul><li>Розбір вашої ситуації</li><li>Перелік потрібних документів</li><li>Письмові рекомендації</li></ul>
+          <div class="price">Вартість: після діагностики</div>
+          <button class="btn btn--ghost" type="button" data-format="consult">Обрати консультацію</button>
+        </article>
+        <article class="fmt is-key">
+          <span class="tag">Під ключ</span>
+          <h3>Оформлення документації</h3>
+          <p>Коли документів немає, вони застаріли або потрібен новий дозвіл.</p>
+          <ul><li>Карта вимог і план робіт</li><li>Підготовка та подання пакета</li><li>Супровід до отримання</li></ul>
+          <div class="price">Вартість: після діагностики</div>
+          <button class="btn btn--primary" type="button" data-format="turnkey">Обрати оформлення</button>
+        </article>
+        <article class="fmt">
+          <span class="tag">Абонемент</span>
+          <h3>Регуляторний супровід</h3>
+          <p>Коли важливо стежити за строками й змінами постійно.</p>
+          <ul><li>Календар строків документів</li><li>Огляд змін у законодавстві</li><li>Консультації протягом року</li></ul>
+          <div class="price">Вартість: після діагностики</div>
+          <button class="btn btn--ghost" type="button" data-format="retainer">Обрати супровід</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SURVEY -->
+  <section class="band band--deep" id="survey" data-section="survey">
+    <div class="wrap survey-wrap">
+      <div class="survey-aside">
+        <div class="eyebrow">Оцінка потреби · 3 хвилини</div>
+        <h2 class="h2">Які документи потрібні вашому підприємству?</h2>
+        <p class="lead">Дайте відповідь на кілька запитань і отримайте попередню карту вимог та рівень регуляторного ризику. Контакти залишати не обов’язково.</p>
+        <ul>
+          <li><b>→</b>Рівень ризику: низький, середній чи високий</li>
+          <li><b>→</b>Ймовірний перелік документів</li>
+          <li><b>→</b>Рекомендований формат співпраці</li>
+        </ul>
+      </div>
+      <div class="survey" id="survey-box" aria-live="polite">
+        <!-- rendered by script; static fallback below -->
+        <noscript><p>Для проходження опитування увімкніть JavaScript.</p></noscript>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUSTAINABILITY -->
+  <section class="band sus" id="sustainability" data-section="sustainability">
+    <canvas id="water" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Сталий розвиток і відповідальність</div>
+        <h2 class="h2">Вода — спільний ресурс. Кожен документ про неї захищає довкілля</h2>
+        <p class="lead" style="color:var(--mist)">Наша робота лежить на перетині екології, водопостачання та водовідведення. Дозвіл на скид означає контрольоване навантаження на річку, а правильна зона санітарної охорони захищає питну воду цілої громади.</p>
+      </div>
+      <div class="refs"><span>Директива 91/271/ЄЕС про очищення міських стічних вод</span><span>Водна стратегія України до 2050 року</span><span>Цілі сталого розвитку ООН · ЦСР 6 «Чиста вода»</span></div>
+      <div class="sus-grid">
+        <div class="pillar">
+          <span class="k">Екологія</span>
+          <h3>Менше забруднень у водних об’єктах</h3>
+          <ul>
+            <li>Нормативи ГДС, які відповідають фактичному стану очисних споруд</li>
+            <li>Рекомендації щодо скорочення водоспоживання та повторного використання технічної води</li>
+            <li>Електронне подання документів замість паперових пакетів</li>
+          </ul>
+        </div>
+        <div class="pillar">
+          <span class="k">Суспільство</span>
+          <h3>Знання для громад і водоканалів</h3>
+          <ul>
+            <li>Безкоштовні роз’яснювальні матеріали для ОМС та комунальних підприємств</li>
+            <li>Прості пояснення змін законодавства без юридичного жаргону</li>
+            <li>Діалог між бізнесом, громадами та водоканалами щодо раціонального використання води</li>
+          </ul>
+        </div>
+        <div class="pillar">
+          <span class="k">Етика даних</span>
+          <h3>Ваші дані належать вам</h3>
+          <ul>
+            <li>Будь-яке використання даних підприємства тільки за окремою явною згодою</li>
+            <li>Не публікуємо технічні дані про інфраструктуру, чутливі в умовах воєнного стану</li>
+            <li>Прозорість звітності як основа ESG-управління (Governance)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="eco-card">
+        <div>
+          <b>Цей сайт теж має еко-режим</b>
+          <p>Він вимикає анімації, декоративну графіку та ефекти розмиття, тож сторінка менше навантажує пристрій і споживає менше енергії. Налаштування запам’ятовується.</p>
+        </div>
+        <button class="eco-toggle" type="button" aria-pressed="false" data-eco-toggle>
+          <span class="dot" aria-hidden="true"></span><span>Увімкнути еко-режим</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="band" id="roadmap" data-section="roadmap">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Що ми розвиваємо далі</div>
+        <h2 class="h2">Позначте, що було б корисно саме вам</h2>
+        <p class="lead">Ці напрями ми плануємо запускати поступово. Ваші позначки допоможуть вирішити, з чого почати.</p>
+      </div>
+      <div class="road">
+        <article class="road-item">
+          <span class="k">Платформа</span>
+          <h3>Комунікація бізнесу з водоканалами</h3>
+          <p>Пошук підрядників, постачальників та інвесторів для модернізації водної інфраструктури.</p>
+          <button class="vote" type="button" aria-pressed="false" data-vote="platform"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Мені це потрібно</span></button>
+        </article>
+        <article class="road-item">
+          <span class="k">Аналітика</span>
+          <h3>Звіти про стан водовідведення</h3>
+          <p>Аналітика для державного сектору та комунальних підприємств щодо систем водопостачання й водовідведення в Україні.</p>
+          <button class="vote" type="button" aria-pressed="false" data-vote="analytics"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Мені це потрібно</span></button>
+        </article>
+        <article class="road-item">
+          <span class="k">Аудит</span>
+          <h3>Фізичний аудит каналізаційної мережі</h3>
+          <p>Обстеження стану каналізаційної інфраструктури на об’єкті.</p>
+          <button class="vote" type="button" aria-pressed="false" data-vote="physical_audit"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Мені це потрібно</span></button>
+        </article>
+        <article class="road-item">
+          <span class="k">Дані</span>
+          <h3>Галузеві дані та бенчмарки</h3>
+          <p>Знеособлені дані підприємств для інвесторів і партнерів. Тільки за згодою кожного учасника.</p>
+          <button class="vote" type="button" aria-pressed="false" data-vote="data"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Мені це потрібно</span></button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="band band--deep" id="faq" data-section="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Питання</div>
+        <h2 class="h2">Часті запитання</h2>
+      </div>
+      <div class="faq">
+        <details data-faq="who"><summary>Кому потрібні ваші послуги?</summary><p>Підприємствам, які забирають воду зі свердловин чи поверхневих водних об’єктів, скидають стічні води або мають власні очисні споруди: виробництво, харчова промисловість, агросектор, девелопмент, а також комунальні підприємства.</p></details>
+        <details data-faq="unknown"><summary>Я не знаю, які документи нам потрібні. З чого почати?</summary><p>З експрес-оцінки на цій сторінці або консультації. Ми визначимо перелік документів для вашого об’єкта й підкажемо, що зробити насамперед.</p></details>
+        <details data-faq="time"><summary>Скільки часу займає оформлення?</summary><p>Залежить від типу документа, наявних даних і стану об’єкта. Орієнтовні строки ми називаємо після діагностики, у карті вимог.</p></details>
+        <details data-faq="data"><summary>Що ви робите з даними нашого підприємства?</summary><p>Використовуємо тільки для підготовки ваших документів. Будь-яке інше використання, зокрема у знеособленій аналітиці, можливе лише за вашою окремою письмовою згодою.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="band" data-section="final">
+    <div class="wrap">
+      <div class="final">
+        <div>
+          <h2>Дізнайтеся, які документи потрібні вашому об’єкту</h2>
+          <p>Три хвилини на опитування. Попередня карта вимог одразу після відповідей.</p>
+        </div>
+        <a class="btn btn--primary" href="#survey" data-track="cta_final">Пройти оцінку</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b style="color:var(--white);font-family:var(--f-display);font-weight:600">Hudor</b> · регуляторний супровід у сфері водопостачання та водовідведення · © 2026</div>
+    <nav aria-label="Нижнє меню"><a href="#services">Послуги</a><a href="#formats">Формати</a><a href="#survey">Оцінка потреби</a><a href="#sustainability">Відповідальність</a></nav>
+  </div>
+</footer>
+
+<script>
+/* ================================================================
+   НАЛАШТУВАННЯ ДЛЯ ЗАПУСКУ НА ВЛАСНОМУ САЙТІ
+   endpoint — URL веб-застосунку Google Apps Script (див. apps-script.gs)
+              або будь-якого webhook (Make, Zapier, Formspree тощо).
+              Порожній рядок = демо-режим: нічого не надсилається.
+   ga4Id    — необов’язково, ID Google Analytics 4 (G-XXXXXXX).
+   ================================================================ */
+const CONFIG = {
+  endpoint: "",
+  ga4Id: "",
+  debug: false
+};
+
+(function(){
+  "use strict";
+  const $ = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const store = {
+    get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  };
+
+  /* ---------- session + UTM ---------- */
+  const sid = store.get("hudor_sid") || (Date.now().toString(36) + Math.random().toString(36).slice(2,8));
+  store.set("hudor_sid", sid);
+  const params = (() => { try { return new URLSearchParams(location.search); } catch(e){ return new URLSearchParams(); } })();
+  const utm = {};
+  ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(k => { if (params.get(k)) utm[k] = params.get(k); });
+  const variant = params.get("v") || "a";
+
+  /* ---------- optional GA4 ---------- */
+  if (CONFIG.ga4Id) {
+    const s = document.createElement("script");
+    s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(CONFIG.ga4Id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ dataLayer.push(arguments); };
+    gtag("js", new Date()); gtag("config", CONFIG.ga4Id);
+  }
+
+  /* ---------- event tracking ---------- */
+  function send(payload){
+    if (!CONFIG.endpoint) return Promise.resolve(false);
+    const body = JSON.stringify(payload);
+    try {
+      return fetch(CONFIG.endpoint, { method:"POST", mode:"no-cors", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body, keepalive:true })
+        .then(() => true).catch(() => false);
+    } catch(e){ return Promise.resolve(false); }
+  }
+  function track(name, props){
+    const ev = { type:"event", event:name, props:props||{}, sid, variant, utm, page:location.pathname, ref:document.referrer||"", ts:new Date().toISOString() };
+    if (CONFIG.debug) console.log("[hudor]", ev);
+    if (window.gtag && CONFIG.ga4Id) { try { gtag("event", name, props||{}); } catch(e){} }
+    send(ev);
+  }
+  track("page_view", { w: window.innerWidth });
+
+  document.addEventListener("click", e => {
+    const t = e.target.closest("[data-track]");
+    if (t) track("click", { id: t.getAttribute("data-track") });
+  });
+
+  // section views (each once)
+  if ("IntersectionObserver" in window) {
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        const id = en.target.getAttribute("data-section");
+        if (en.isIntersecting && !seen.has(id)) { seen.add(id); track("section_view", { id }); }
+      });
+    }, { threshold: 0.35 });
+    $$("[data-section]").forEach(s => io.observe(s));
+  }
+  // scroll depth
+  const depthMarks = [25,50,75,100]; const depthHit = new Set();
+  window.addEventListener("scroll", () => {
+    const h = document.documentElement;
+    const pct = Math.round((h.scrollTop + innerHeight) / h.scrollHeight * 100);
+    depthMarks.forEach(m => { if (pct >= m && !depthHit.has(m)) { depthHit.add(m); track("scroll_depth", { pct:m }); } });
+  }, { passive:true });
+  $$("[data-faq]").forEach(d => d.addEventListener("toggle", () => { if (d.open) track("faq_open", { id:d.dataset.faq }); }));
+
+  /* ---------- eco mode ---------- */
+  const root = document.documentElement;
+  function setEco(on, user){
+    root.dataset.eco = on ? "on" : "off";
+    $$("[data-eco-toggle]").forEach(b => {
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+      const lbl = b.querySelector("span:not(.dot)");
+      if (lbl && !lbl.classList.contains("eco-label")) lbl.textContent = on ? "Еко-режим увімкнено" : "Увімкнути еко-режим";
+    });
+    store.set("hudor_eco", on ? "1" : "0");
+    if (on) stopWater(); else startWater();
+    if (user) track("eco_mode", { on });
+  }
+  $$("[data-eco-toggle]").forEach(b => b.addEventListener("click", () => setEco(root.dataset.eco !== "on", true)));
+
+  /* ---------- hero schematic ---------- */
+  const NODE_DOCS = [
+    { k:"Документи на етапі «Джерело»", docs:[["Д-03","Паспорт артезіанської свердловини"],["Д-05","Проєкт зон санітарної охорони"],["Д-04","Паспорт водного об’єкта"]] },
+    { k:"Документи на етапі «Водозабір»", docs:[["Д-01","Дозвіл на спеціальне водокористування"],["Д-03","Документація на водозабірні споруди"]] },
+    { k:"Документи на етапі «Виробництво»", docs:[["Д-06","Технічна документація систем водопостачання"],["Д-01","Розрахунок обсягів водокористування"]] },
+    { k:"Документи на етапі «Очисні споруди»", docs:[["Д-06","Проєктна документація очисних споруд"],["Д-06","Екологічна документація"]] },
+    { k:"Документи на етапі «Скид»", docs:[["Д-02","Нормативи гранично допустимих скидів (ГДС)"],["Д-01","Дозвіл на скид у водний об’єкт"],["Д-06","Документи для скиду в мережу водоканалу"]] }
+  ];
+  const nodes = $$("#nodes .node");
+  function pickNode(i, user){
+    nodes.forEach((n,j) => n.setAttribute("aria-current", j===i ? "true" : "false"));
+    $("#node-k").textContent = NODE_DOCS[i].k;
+    const c = $("#node-chips"); c.textContent = "";
+    NODE_DOCS[i].docs.forEach(([code,name]) => {
+      const s = document.createElement("span"); s.className = "chip";
+      const m = document.createElement("span"); m.className = "mono"; m.textContent = code;
+      s.append(m, document.createTextNode(name)); c.appendChild(s);
+    });
+    if (user) track("scheme_node", { node:i });
+  }
+  nodes.forEach((n,i) => {
+    const b = n.querySelector("button");
+    b.addEventListener("click", () => pickNode(i, true));
+    b.addEventListener("mouseenter", () => pickNode(i, false));
+  });
+  pickNode(0, false);
+
+  /* ---------- survey ---------- */
+  const DOCS = {
+    "Д-01":"Дозвільна документація у сфері водокористування",
+    "Д-02":"Документація щодо скидання стічних вод і нормативів ГДС",
+    "Д-03":"Документація на артезіанські свердловини та водозабірні споруди",
+    "Д-04":"Паспорт водного об’єкта",
+    "Д-05":"Документація щодо зон санітарної охорони",
+    "Д-06":"Екологічна, проєктна та технічна документація"
+  };
+  const STEPS = [
+    { id:"sector", type:"single", label:"Хто ви", title:"До якої сфери належить ваша організація?", hint:"Оберіть найближчий варіант.", two:true, options:[
+      { v:"industry", t:"Промислове виробництво" },
+      { v:"food_agro", t:"Харчова промисловість або агросектор" },
+      { v:"utility", t:"Комунальне підприємство, водоканал" },
+      { v:"local_gov", t:"Орган місцевого самоврядування" },
+      { v:"construction", t:"Девелопмент або будівництво" },
+      { v:"other", t:"Інша сфера" } ] },
+    { id:"water", type:"multi", label:"Вода", title:"Як ваш об’єкт використовує воду?", hint:"Позначте все, що підходить.", options:[
+      { v:"well", t:"Забираємо воду з власної свердловини", d:"артезіанська або інша свердловина" },
+      { v:"surface", t:"Забираємо воду з річки, озера чи ставка" },
+      { v:"waterbody", t:"Користуємося водним об’єктом", d:"ставок, водосховище, зокрема на умовах оренди" },
+      { v:"own_treatment", t:"Маємо власні очисні споруди" },
+      { v:"discharge_water", t:"Скидаємо стічні води у водний об’єкт" },
+      { v:"discharge_sewer", t:"Скидаємо стічні води в мережу водоканалу" },
+      { v:"unsure", t:"Не впевнений, як це правильно описати" } ] },
+    { id:"status", type:"single", label:"Документи", title:"У якому стані ваша водна документація зараз?", options:[
+      { v:"ok", t:"Усе оформлено й чинне" },
+      { v:"partial", t:"Частини документів бракує або спливає строк дії" },
+      { v:"none", t:"Документів немає або вони дуже застарілі" },
+      { v:"unknown", t:"Не знаю, які документи нам потрібні" } ] },
+    { id:"pains", type:"multi", label:"Виклики", title:"Що турбує найбільше?", hint:"Можна обрати кілька варіантів.", two:true, options:[
+      { v:"fines", t:"Ризик штрафів і перевірок" },
+      { v:"law_changes", t:"Постійні зміни законодавства" },
+      { v:"timing", t:"Довгі строки отримання дозволів" },
+      { v:"no_specialist", t:"Немає профільного фахівця в штаті" },
+      { v:"esg_investor", t:"Вимоги інвестора, ЄС або ESG-звітність" },
+      { v:"new_object", t:"Запуск нового об’єкта чи розширення" } ] },
+    { id:"urgency", type:"single", label:"Строки", title:"Коли потрібно вирішити питання?", two:true, options:[
+      { v:"month", t:"Протягом місяця" },
+      { v:"quarter", t:"За 1–3 місяці" },
+      { v:"plan", t:"Плануємо на майбутнє" },
+      { v:"explore", t:"Поки що просто цікавлюся" } ] },
+    { id:"format", type:"single", label:"Формат", title:"Який формат допомоги вам ближчий?", options:[
+      { v:"turnkey", t:"Оформлення документації під ключ" },
+      { v:"retainer", t:"Постійний регуляторний супровід" },
+      { v:"consult", t:"Разова консультація" },
+      { v:"self", t:"Хочу розібратися самостійно з чек-листом" } ] },
+    { id:"extra", type:"multi", optional:true, label:"Додатково", title:"Що з цього вам було б цікаво в майбутньому?", hint:"Необов’язково. Це допоможе нам вирішити, що розвивати далі.", options:[
+      { v:"platform", t:"Платформа для комунікації з водоканалами та підрядниками" },
+      { v:"analytics", t:"Аналітичні звіти про стан водовідведення" },
+      { v:"physical_audit", t:"Фізичний аудит каналізаційної мережі" },
+      { v:"data", t:"Галузеві бенчмарки на основі знеособлених даних" } ] }
+  ];
+  const answers = {};
+  let step = 0, started = false, result = null;
+  const box = $("#survey-box");
+
+  function el(tag, attrs, ...kids){
+    const n = document.createElement(tag);
+    if (attrs) for (const k in attrs) {
+      if (k === "class") n.className = attrs[k];
+      else if (k === "text") n.textContent = attrs[k];
+      else n.setAttribute(k, attrs[k]);
+    }
+    kids.forEach(k => k != null && n.append(k));
+    return n;
+  }
+  function progress(i){
+    const total = STEPS.length + 1;
+    const bar = el("div", { class:"progress", "aria-hidden":"true" });
+    for (let j=0;j<total;j++) bar.append(el("i", { class: j<=i ? "on" : "" }));
+    const lbl = el("div", { class:"progress-label" },
+      el("span", { text: i < STEPS.length ? `Крок ${i+1} з ${STEPS.length}` : "Результат" }),
+      el("span", { text: i < STEPS.length ? STEPS[i].label : "Карта вимог" }));
+    return [bar, lbl];
+  }
+  function isAnswered(s){
+    const a = answers[s.id];
+    if (s.optional) return true;
+    return s.type === "multi" ? Array.isArray(a) && a.length > 0 : !!a;
+  }
+  function renderStep(){
+    const s = STEPS[step];
+    box.textContent = "";
+    box.append(...progress(step));
+    const fs = el("fieldset", { style:"border:0;margin:0;padding:0;min-width:0" });
+    fs.append(el("legend", { class:"q-title", text:s.title }));
+    if (s.hint) fs.append(el("p", { class:"q-hint", text:s.hint })); else fs.append(el("div", { style:"height:14px" }));
+    const opts = el("div", { class:"opts" + (s.two ? " two" : "") });
+    s.options.forEach(o => {
+      const id = `q_${s.id}_${o.v}`;
+      const inp = el("input", { type: s.type==="multi" ? "checkbox" : "radio", name:s.id, value:o.v, id });
+      const cur = answers[s.id];
+      if (s.type==="multi" ? (cur||[]).includes(o.v) : cur===o.v) inp.checked = true;
+      inp.addEventListener("change", () => {
+        if (!started) { started = true; track("survey_start", {}); }
+        if (s.type === "multi") {
+          let arr = $$(`input[name="${s.id}"]:checked`, box).map(x => x.value);
+          if (s.id === "water" && o.v === "unsure" && inp.checked) { arr = ["unsure"]; $$(`input[name="water"]`, box).forEach(x => x.checked = x.value === "unsure"); }
+          else if (s.id === "water" && o.v !== "unsure" && inp.checked) { arr = arr.filter(x => x !== "unsure"); const u = $(`#q_water_unsure`, box); if (u) u.checked = false; }
+          answers[s.id] = arr;
+        } else answers[s.id] = o.v;
+        nextBtn.disabled = !isAnswered(s);
+      });
+      const txt = el("span", null, el("b", { text:o.t }), o.d ? el("small", { text:o.d }) : null);
+      opts.append(el("label", { class:"opt", for:id }, inp, el("span", { class:"box", "aria-hidden":"true" }), txt));
+    });
+    fs.append(opts);
+    box.append(fs);
+    const back = el("button", { class:"btn btn--ghost", type:"button", text:"Назад" });
+    back.disabled = step === 0;
+    back.addEventListener("click", () => { step--; renderStep(); });
+    const nextBtn = el("button", { class:"btn btn--primary", type:"button", text: step === STEPS.length-1 ? "Показати результат" : "Далі" });
+    nextBtn.disabled = !isAnswered(s);
+    nextBtn.addEventListener("click", () => {
+      track("survey_step", { step: step+1, id: s.id, answer: answers[s.id] ?? null });
+      step++;
+      if (step >= STEPS.length) renderResult(); else renderStep();
+      focusBox();
+    });
+    box.append(el("div", { class:"q-nav" }, back, nextBtn));
+  }
+  function focusBox(){
+    const r = box.getBoundingClientRect();
+    if (r.top < 70 || r.top > innerHeight*0.6) box.scrollIntoView({ behavior: root.dataset.eco==="on" ? "auto" : "smooth", block:"start" });
+  }
+
+  function compute(){
+    const w = answers.water || [];
+    const docs = new Set();
+    if (w.includes("well")) ["Д-03","Д-05","Д-01"].forEach(d=>docs.add(d));
+    if (w.includes("surface")) ["Д-01","Д-05"].forEach(d=>docs.add(d));
+    if (w.includes("waterbody")) docs.add("Д-04");
+    if (w.includes("own_treatment")) ["Д-06","Д-02"].forEach(d=>docs.add(d));
+    if (w.includes("discharge_water")) ["Д-02","Д-01"].forEach(d=>docs.add(d));
+    if (w.includes("discharge_sewer")) docs.add("Д-06");
+    if (w.includes("unsure")) Object.keys(DOCS).forEach(d=>docs.add(d));
+    const pains = answers.pains || [];
+    let score = { ok:0, partial:2, none:3, unknown:3 }[answers.status] || 0;
+    score += { month:2, quarter:1, plan:0, explore:0 }[answers.urgency] || 0;
+    if (pains.includes("fines")) score += 1;
+    if (pains.includes("new_object")) score += 1;
+    const level = score >= 5 ? "high" : score >= 2 ? "mid" : "low";
+    let need;
+    if (answers.status === "none") need = "Отримання дозволів і документації з нуля";
+    else if (answers.status === "unknown" || w.includes("unsure")) need = "Діагностика: визначити, які вимоги поширюються на ваш об’єкт";
+    else if (answers.status === "partial") need = "Оновлення та доповнення наявної документації";
+    else if (pains.includes("law_changes") || pains.includes("esg_investor")) need = "Регуляторний супровід і моніторинг змін";
+    else need = "Перевірка відповідності та планування строків";
+    let fmt = answers.format;
+    if (fmt === "self") fmt = level === "high" ? "consult" : "self";
+    const FMT = { turnkey:"Оформлення документації під ключ", retainer:"Регуляторний супровід (абонемент)", consult:"Консультація з картою вимог", self:"Чек-лист для самостійної перевірки та коротка консультація" };
+    return { level, score, need, docs:[...docs].sort(), format: fmt, formatLabel: FMT[fmt] };
+  }
+  const LEVEL = {
+    high:["Високий рівень ризику","Варто почати з діагностики якнайшвидше: є ймовірність порушень або критичних строків."],
+    mid:["Середній рівень ризику","Є питання, які краще закрити планово, до перевірок чи завершення строку дії документів."],
+    low:["Низький рівень ризику","Базові документи на місці. Варто стежити за строками та змінами вимог."]
+  };
+
+  function renderResult(){
+    result = compute();
+    track("survey_complete", { level: result.level, need: result.need, docs: result.docs, format: result.format, answers });
+    box.textContent = "";
+    box.append(...progress(STEPS.length));
+    const r = el("div", { class:"result" });
+    const risk = el("div", { class:"risk", "data-level": result.level },
+      el("div", { class:"meter", "aria-hidden":"true" }, el("i"), el("i"), el("i")),
+      el("div", null, el("b", { text: LEVEL[result.level][0] }), el("span", { text: LEVEL[result.level][1] })));
+    r.append(risk);
+    r.append(el("div", { class:"res-block" }, el("div", { class:"k", text:"Ваша основна потреба" }), el("div", { class:"res-need", text: result.need })));
+    if (result.docs.length) {
+      const ul = el("ul", { class:"res-docs" });
+      result.docs.forEach(d => ul.append(el("li", null, el("span", { class:"code", text:d }), el("span", { text:DOCS[d] }))));
+      r.append(el("div", { class:"res-block" }, el("div", { class:"k", text:"Ймовірно знадобиться" }), ul));
+    } else {
+      r.append(el("div", { class:"res-block" }, el("div", { class:"k", text:"Ймовірно знадобиться" }), el("p", { class:"q-hint", style:"margin:0", text:"За вашими відповідями прямих вимог не видно. Рекомендуємо коротку консультацію, щоб це підтвердити." })));
+    }
+    r.append(el("div", { class:"res-block" }, el("div", { class:"k", text:"Рекомендований формат" }), el("p", { style:"color:var(--white);font-weight:500", text: result.formatLabel })));
+    r.append(el("p", { class:"disclaimer", text:"Це попередня оцінка на основі ваших відповідей, а не юридичний висновок. Точний перелік документів визначаємо після діагностики об’єкта." }));
+
+    // lead form
+    const form = el("form", { class:"lead-form", novalidate:"" });
+    form.append(el("h3", { text:"Отримати детальну карту вимог від фахівця" }));
+    form.append(el("p", { class:"q-hint", style:"margin:-6px 0 0", text:"Необов’язково. Залиште контакт, і ми зв’яжемося протягом робочого дня." }));
+    const f = (id, label, type, ph, req) => el("label", { class:"field", for:id }, document.createTextNode(label + (req ? " *" : "")), el("input", { id, name:id, type, placeholder:ph, autocomplete: id==="lf_email" ? "email" : id==="lf_phone" ? "tel" : id==="lf_name" ? "name" : "organization" }));
+    form.append(el("div", { class:"fields" },
+      f("lf_name","Ім’я","text","Олена", true),
+      f("lf_company","Підприємство","text","ТОВ «…»", false),
+      f("lf_email","Email","email","name@company.ua", false),
+      f("lf_phone","Телефон","tel","+380 …", false)));
+    form.append(el("label", { class:"field", for:"lf_note" }, document.createTextNode("Коментар"), el("textarea", { id:"lf_note", name:"lf_note", placeholder:"Наприклад: строк дії дозволу спливає в березні" })));
+    const c1 = el("input", { type:"checkbox", id:"lf_consent" });
+    const c2 = el("input", { type:"checkbox", id:"lf_analytics" });
+    form.append(el("label", { class:"check", for:"lf_consent" }, c1, el("span", { text:"Погоджуюся на обробку контактних даних для зв’язку щодо мого запиту *" })));
+    form.append(el("label", { class:"check", for:"lf_analytics" }, c2, el("span", { text:"Окремо дозволяю використовувати мої відповіді у знеособленій галузевій аналітиці (необов’язково)" })));
+    const msg = el("p", { class:"form-msg", role:"alert" });
+    const submit = el("button", { class:"btn btn--primary", type:"submit", text:"Надіслати запит" });
+    const restart = el("button", { class:"btn btn--ghost", type:"button", text:"Пройти ще раз" });
+    restart.addEventListener("click", () => { for (const k in answers) delete answers[k]; step = 0; started = false; track("survey_restart", {}); renderStep(); focusBox(); });
+    form.append(msg, el("div", { class:"q-nav", style:"margin-top:4px" }, restart, submit));
+    form.addEventListener("submit", ev => {
+      ev.preventDefault();
+      const v = id => (form.querySelector("#"+id).value || "").trim();
+      msg.textContent = "";
+      if (!v("lf_name")) { msg.textContent = "Вкажіть ім’я, щоб ми знали, як до вас звертатися."; return; }
+      if (!v("lf_email") && !v("lf_phone")) { msg.textContent = "Залиште email або телефон для зв’язку."; return; }
+      if (v("lf_email") && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v("lf_email"))) { msg.textContent = "Перевірте email: схоже, в адресі помилка."; return; }
+      if (!c1.checked) { msg.textContent = "Позначте згоду на обробку контактних даних."; return; }
+      submit.disabled = true; submit.textContent = "Надсилаємо…";
+      const lead = { type:"lead", sid, variant, utm, ts:new Date().toISOString(), answers, result,
+        contact:{ name:v("lf_name"), company:v("lf_company"), email:v("lf_email"), phone:v("lf_phone"), note:v("lf_note") },
+        consent:{ contact:true, analytics:c2.checked } };
+      send(lead).then(() => {
+        track("lead_submit", { level: result.level, format: result.format, analytics_optin: c2.checked });
+        renderThanks(v("lf_name"));
+      });
+    });
+    r.append(form);
+    box.append(r);
+  }
+  function renderThanks(name){
+    box.textContent = "";
+    box.append(...progress(STEPS.length));
+    const t = el("div", { class:"thanks" },
+      el("h3", { text:`Дякуємо, ${name}!` }),
+      el("p", { text:"Ваш запит отримано. Фахівець перегляне відповіді та зв’яжеться з вами протягом робочого дня з детальною картою вимог." }));
+    if (!CONFIG.endpoint) t.append(el("p", { class:"demo-note", text:"Демо-режим: адресу для збору відповідей ще не налаштовано, тому дані нікуди не надіслано." }));
+    const again = el("button", { class:"btn btn--ghost", type:"button", text:"Пройти оцінку ще раз" });
+    again.addEventListener("click", () => { for (const k in answers) delete answers[k]; step = 0; started = false; renderStep(); });
+    t.append(el("div", null, again));
+    box.append(t);
+  }
+
+  // format buttons → preselect format and jump to survey
+  $$("[data-format]").forEach(b => b.addEventListener("click", () => {
+    answers.format = b.dataset.format;
+    track("format_select", { format: b.dataset.format });
+    if (step >= STEPS.length) { step = 0; }
+    renderStep();
+    box.scrollIntoView({ behavior: root.dataset.eco==="on" ? "auto" : "smooth", block:"start" });
+  }));
+
+  // roadmap interest votes
+  $$("[data-vote]").forEach(b => b.addEventListener("click", () => {
+    const on = b.getAttribute("aria-pressed") !== "true";
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+    b.querySelector("span").textContent = on ? "Позначено" : "Мені це потрібно";
+    track("roadmap_interest", { id: b.dataset.vote, on });
+  }));
+
+  renderStep();
+
+  /* ---------- water surface canvas (decorative) ---------- */
+  const cv = $("#water"); const ctx = cv && cv.getContext ? cv.getContext("2d") : null;
+  let raf = null, t0 = 0, visible = true;
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function size(){ if (!cv) return; const r = cv.getBoundingClientRect(); const d = Math.min(devicePixelRatio||1, 2); cv.width = Math.max(1, r.width*d); cv.height = Math.max(1, r.height*d); ctx && ctx.setTransform(d,0,0,d,0,0); }
+  function draw(t){
+    if (!ctx) return;
+    const w = cv.clientWidth, h = cv.clientHeight;
+    ctx.clearRect(0,0,w,h);
+    const layers = [
+      { a: 0.10, amp: 14, len: 420, sp: 0.00022, y: 0.30, c:"88,179,214" },
+      { a: 0.14, amp: 10, len: 300, sp: -0.00030, y: 0.48, c:"61,143,179" },
+      { a: 0.20, amp: 8,  len: 220, sp: 0.00038, y: 0.66, c:"108,196,161" }
+    ];
+    layers.forEach(L => {
+      ctx.beginPath(); ctx.moveTo(0, h);
+      for (let x=0; x<=w; x+=8) {
+        const y = h*L.y + Math.sin(x/L.len*Math.PI*2 + t*L.sp*6) * L.amp + Math.sin(x/(L.len*0.53) + t*L.sp*4) * L.amp*0.4;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(w, h); ctx.closePath();
+      ctx.fillStyle = `rgba(${L.c},${L.a})`; ctx.fill();
+    });
+  }
+  function loop(t){ draw(t); raf = requestAnimationFrame(loop); }
+  function startWater(){ if (!ctx || raf || reduce || !visible || root.dataset.eco === "on") { if (ctx && (reduce)) draw(0); return; } raf = requestAnimationFrame(loop); }
+  function stopWater(){ if (raf) cancelAnimationFrame(raf); raf = null; }
+  if (cv && ctx) {
+    size(); draw(0);
+    window.addEventListener("resize", () => { size(); draw(performance.now()); });
+    if ("IntersectionObserver" in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; visible ? startWater() : stopWater(); }).observe(cv);
+  }
+  setEco(store.get("hudor_eco") === "1", false);
+})();
+</script>
+</body>
+</html>
